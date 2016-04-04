@@ -87,7 +87,7 @@ angular.module('weddingApp')
             direction = selectDirection(event);
           }
           function selectDirection(event) {
-            locationX = event.clientX ? event.clientX : event.touches[0].clientX;
+            locationX = event.offsetX ? event.offsetX : event.touches[0].clientX;
             return locationX > 100 ? 'right' : 'left';
           }
         }
