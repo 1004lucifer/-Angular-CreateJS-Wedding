@@ -18,7 +18,9 @@ angular.module('weddingApp')
       },
       link: function postLink(scope, element, attrs) {
         var w, h, husband, ground,
-          move = false,
+          distance = 0,   // distance of character movement
+          distanceCountFlag = true,
+          move = false,   // flag animation move (Event)
           direction = 'right';
 
         element[0].width = $(element[0]).parent().width();
@@ -58,12 +60,13 @@ angular.module('weddingApp')
         }
 
         function tick(event) {
-          if (direction == 'left' && husband.getAnimationStatus() == 'right') {
-            husband.playAnimation('left');
+          if (direction == 'left' && distance == 1) {
+            createjs.Ticker.removeEventListener("tick", tick);
           }
-          if (direction == 'right' && husband.getAnimationStatus() == 'left') {
-            husband.playAnimation('right');
-          }
+
+          changeCharacterDirection();
+
+          checkDistance();
 
           var deltaS = event.delta / 1000;
 
@@ -73,6 +76,26 @@ angular.module('weddingApp')
           }
 
           scope.stage.update(event);
+        }
+
+        function changeCharacterDirection() {
+          if (direction == 'left' && husband.getAnimationStatus() == 'right') {
+            husband.playAnimation('left');
+          }
+          if (direction == 'right' && husband.getAnimationStatus() == 'left') {
+            husband.playAnimation('right');
+          }
+        }
+
+        function checkDistance() {
+          if (distanceCountFlag) {
+            distanceCountFlag = false;
+            setTimeout(function() {
+              distance += (direction == 'left') ? (distance > 0 ? -1 : 0) : 1;
+              console.log('distance: ' + distance);
+              distanceCountFlag = true;
+            }, 200);
+          }
         }
 
         function decideEventDirection() {
@@ -87,7 +110,9 @@ angular.module('weddingApp')
           function touchstart(event) {
             direction = selectDirection(event);
             move = true;
-            createjs.Ticker.addEventListener("tick", tick);
+            if (direction == 'right' || (direction == 'left' && distance > 0)) {
+              createjs.Ticker.addEventListener("tick", tick);
+            }
           }
           function touchend(event) {
             move = false;
@@ -95,6 +120,9 @@ angular.module('weddingApp')
           }
           function touchmove(event) {
             direction = selectDirection(event);
+            if (distance == 0 && direction == 'left') {
+              createjs.Ticker.removeEventListener("tick", tick);
+            }
           }
           function selectDirection(event) {
             locationX = event.clientX ? event.clientX : event.touches[0].clientX;
