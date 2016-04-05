@@ -10,13 +10,14 @@ angular.module('weddingApp')
       "images": [loaderSvc.getResult(obj.characterAssetName)],
       "frames": {"width": 108, "height": 140, "count": 16},
       "animations": {
-        "run": [0, 7, "run", 1.3],
-        "back": [8, 15, "back", 1.3]
+        "right": [0, 7, "right", 1.3],
+        "left": [8, 15, "left", 1.3]
       }
     });
-    this.grant = new createjs.Sprite(spriteSheet, "run");
+    this.grant = new createjs.Sprite(spriteSheet, "right");
     this.grant.x = 50;
     this.grant.y = obj.y;
+    this.animationStatus = 'right';
 
   }
   Character.prototype = {
@@ -36,7 +37,11 @@ angular.module('weddingApp')
       this.grant.x =  val;
     },
     playAnimation: function (animation) {
+      this.animationStatus = animation;
       this.grant.gotoAndPlay(animation);
+    },
+    getAnimationStatus: function() {
+      return this.animationStatus;
     }
   };
   return (Character);

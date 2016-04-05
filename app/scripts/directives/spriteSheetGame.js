@@ -49,14 +49,22 @@ angular.module('weddingApp')
           husband.addToStage(scope.stage);
 
           createjs.Ticker.timingMode = createjs.Ticker.RAF;
-          createjs.Ticker.addEventListener("tick", tick);
 
           // decide Derection of touchEvent/mouseEvent
           decideEventDirection();
 
+          // First Rendering
+          scope.stage.update();
         }
 
         function tick(event) {
+          if (direction == 'left' && husband.getAnimationStatus() == 'right') {
+            husband.playAnimation('left');
+          }
+          if (direction == 'right' && husband.getAnimationStatus() == 'left') {
+            husband.playAnimation('right');
+          }
+
           var deltaS = event.delta / 1000;
 
           var groundMove = deltaS * 150;
@@ -79,9 +87,11 @@ angular.module('weddingApp')
           function touchstart(event) {
             direction = selectDirection(event);
             move = true;
+            createjs.Ticker.addEventListener("tick", tick);
           }
           function touchend(event) {
             move = false;
+            createjs.Ticker.removeEventListener("tick", tick);
           }
           function touchmove(event) {
             direction = selectDirection(event);
