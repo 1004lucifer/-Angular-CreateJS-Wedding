@@ -7,7 +7,7 @@
  * # spriteSheetGame
  */
 angular.module('weddingApp')
-  .directive('spriteSheetGame', ['loaderSvc', 'Ground', 'Hill', 'Husband', function (loaderSvc, Ground, Hill, Husband) {
+  .directive('spriteSheetGame', ['loaderSvc', 'Ground', 'Sky', 'Hill', 'Husband', function (loaderSvc, Ground, Sky, Hill, Husband) {
     return {
       template: '<canvas></canvas>',
       replace: true,
@@ -17,7 +17,7 @@ angular.module('weddingApp')
         height: '=height'
       },
       link: function postLink(scope, element, attrs) {
-        var w, h, husband, ground, hill, hill2,
+        var w, h, husband, sky, ground, hill, hill2,
           distance = 0,   // distance of character movement
           distanceCountFlag = true,
           move = false,   // flag animation move (Event)
@@ -44,6 +44,9 @@ angular.module('weddingApp')
         }
 
         function handleComplete() {
+          sky = new Sky({width:w, height:h});
+          sky.addToStage(scope.stage);
+
           ground = new Ground({width:w, height:h});
           ground.addToStage(scope.stage);
 

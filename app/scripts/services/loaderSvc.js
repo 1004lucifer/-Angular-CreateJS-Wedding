@@ -12,6 +12,7 @@ angular.module('weddingApp')
     // AngularJS will instantiate a singleton by calling "new" on this function
     var manifest = [
       {src: "ground.png", id: "ground"},
+      {src: "sky.png", id: "sky"},
       {src: "hill1.png", id: "hill"},
       {src: "hill2.png", id: "hill2"},
       {src: 'husband.png', id: 'husband'}
