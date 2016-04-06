@@ -69,7 +69,7 @@ angular.module('weddingApp')
         }
 
         function tick(event) {
-          if (direction == 'left' && distance == 1) {
+          if (direction == 'left' && distance == 0) {
             createjs.Ticker.removeEventListener("tick", tick);
           }
 
@@ -113,9 +113,9 @@ angular.module('weddingApp')
         function checkDistance() {
           if (distanceCountFlag) {
             distanceCountFlag = false;
+            distance += (direction == 'left') ? (distance > 0 ? -1 : 0) : 1;
+            console.log('distance: ' + distance);
             setTimeout(function() {
-              distance += (direction == 'left') ? (distance > 0 ? -1 : 0) : 1;
-              console.log('distance: ' + distance);
               distanceCountFlag = true;
             }, 200);
           }
