@@ -7,7 +7,7 @@
  * # spriteSheetGame
  */
 angular.module('weddingApp')
-  .directive('spriteSheetGame', ['loaderSvc', 'Ground', 'Sky', 'Hill', 'Husband', function (loaderSvc, Ground, Sky, Hill, Husband) {
+  .directive('spriteSheetGame', ['loaderSvc', 'Ground', 'Sky', 'Hill', 'School', 'Husband', function (loaderSvc, Ground, Sky, Hill, School, Husband) {
     return {
       template: '<canvas></canvas>',
       replace: true,
@@ -17,7 +17,7 @@ angular.module('weddingApp')
         height: '=height'
       },
       link: function postLink(scope, element, attrs) {
-        var w, h, husband, sky, ground, hill, hill2,
+        var w, h, husband, sky, ground, hill, hill2, school,
           distance = 0,   // distance of character movement
           distanceCountFlag = true,
           move = false,   // flag animation move (Event)
@@ -55,6 +55,9 @@ angular.module('weddingApp')
           hill.addToStage(scope.stage);
           hill2 = new Hill({width:w, height:h, scaleFactor: 3, assetName: 'hill2', groundHeight: ground.getHeight()});
           hill2.addToStage(scope.stage);
+
+          school = new School({width:w, height:h, scaleFactor: 1, assetName: 'school', groundHeight: ground.getHeight()});
+          school.addToStage(scope.stage);
 
           husband = new Husband({characterAssetName: 'husband', y: 200});
           husband.addToStage(scope.stage);
@@ -97,6 +100,10 @@ angular.module('weddingApp')
           if (hill2.getX() + hill2.getImageWidth() * hill2.getScaleX() <= 0) {
             hill2.setX(w);
           }
+
+          // move School
+          var schoolMove = plusMinus * (deltaS * 60);
+          school.move(schoolMove, 0);
 
           scope.stage.update(event);
         }

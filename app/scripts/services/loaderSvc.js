@@ -15,6 +15,7 @@ angular.module('weddingApp')
       {src: "sky.png", id: "sky"},
       {src: "hill1.png", id: "hill"},
       {src: "hill2.png", id: "hill2"},
+      {src: "school.png", id: "school"},
       {src: 'husband.png', id: 'husband'}
     ], loader = new createjs.LoadQueue(true);
     //createjs.Sound.registerPlugins([createjs.HTMLAudioPlugin]);  // need this so it doesn't default to Web Audio
