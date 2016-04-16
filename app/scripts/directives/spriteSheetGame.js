@@ -48,6 +48,7 @@ angular.module('weddingApp')
           h = scope.stage.canvas.height;
           loaderSvc.getLoader().addEventListener("complete", handleComplete);
           loaderSvc.getLoader2().addEventListener("complete", handleComplete2); // picture, character load
+          loaderSvc.getLoader3().addEventListener("complete", handleComplete3); // picture, character load (etc)
           loaderSvc.loadAssets();
         }
 
@@ -88,6 +89,7 @@ angular.module('weddingApp')
         }
 
         function handleComplete2(){
+          loaderSvc.loadAssets3();  // parallel images download (etc)
 
           for (var i = 1; i <= 11; i++){
             frame[i] = new Frame({width:w + frameDis*(i+1), height:h, scaleFactor: 1, assetName: 'picture'+i, groundHeight: ground.getHeight()});
@@ -102,6 +104,24 @@ angular.module('weddingApp')
           frame[12].addToStage(scope.stage);
           picture[12] = new Background({width:w + frameDis*13, height:h, scaleFactor: 1, assetName: 'picture12', groundHeight: ground.getHeight()});
           picture[12].addToStage(scope.stage);
+
+          // Rerendering for z-index
+          husband.addToStage(scope.stage);
+        }
+
+        function handleComplete3(){
+
+          for (var i = 13; i <= 28; i++){
+            frame[i] = new Frame({width:w + frameDis*(i+1), height:h, scaleFactor: 1, assetName: 'etc'+(i-12), groundHeight: ground.getHeight()});
+            frame[i].addToStage(scope.stage);
+            picture[i] = new Background({width:w + frameDis*(i+1), height:h, scaleFactor: 1, assetName: 'etc'+(i-12), groundHeight: ground.getHeight()});
+            picture[i].addToStage(scope.stage);
+          }
+
+          frame[29] = new Frame({width:w + frameDis*40, height:h, scaleFactor: 1, assetName: 'etc17', groundHeight: ground.getHeight()});
+          frame[29].addToStage(scope.stage);
+          picture[29] = new Background({width:w + frameDis*40, height:h, scaleFactor: 1, assetName: 'etc17', groundHeight: ground.getHeight()});
+          picture[29].addToStage(scope.stage);
 
           // Rerendering for z-index
           husband.addToStage(scope.stage);
