@@ -129,7 +129,7 @@ angular.module('weddingApp')
 
 
         function tick(event) {
-          if (direction == 'left' && distance == 0) {
+          if ((direction == 'left' && distance == 0) || (direction == 'right' && (frame[29] ? frame[29].getX() < 0 : false))) {
             createjs.Ticker.removeEventListener("tick", tick);
           }
 
@@ -148,7 +148,7 @@ angular.module('weddingApp')
 
           // move Hill
           var hill1Move = plusMinus * (deltaS * 30);
-          var hill2Move = plusMinus * (deltaS * 45);
+          var hill2Move = plusMinus * (deltaS * 50);
           hill.move(hill1Move, 0);
           if (hill.getX() + hill.getImageWidth() * hill.getScaleX() <= 0) {
             hill.setX(w);
@@ -159,7 +159,7 @@ angular.module('weddingApp')
           }
 
           // move Pictire, Character
-          var curMove = plusMinus * (deltaS * 80);
+          var curMove = plusMinus * (deltaS * 100);
           for (var i = 0; i < picture.length; i++){
             picture[i].move(curMove, 0);
             frame[i].move(curMove, 0);
@@ -184,7 +184,7 @@ angular.module('weddingApp')
           if (distanceCountFlag) {
             distanceCountFlag = false;
             distance += (direction == 'left') ? (distance > 0 ? -1 : 0) : 1;
-            console.log('distance: ' + distance);
+            // console.log('distance: ' + distance);
             setTimeout(function() {
               distanceCountFlag = true;
             }, 200);
@@ -203,7 +203,7 @@ angular.module('weddingApp')
           function touchstart(event) {
             direction = selectDirection(event);
             move = true;
-            if (direction == 'right' || (direction == 'left' && distance > 0)) {
+            if ((direction == 'right' && (frame[29] ? frame[29].getX() > 0 : true)) || (direction == 'left' && distance > 0)) {
               createjs.Ticker.addEventListener("tick", tick);
             }
           }
