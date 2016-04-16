@@ -7,7 +7,7 @@
  * # spriteSheetGame
  */
 angular.module('weddingApp')
-  .directive('spriteSheetGame', ['loaderSvc', 'Ground', 'Sky', 'Hill', 'School', 'Husband', function (loaderSvc, Ground, Sky, Hill, School, Husband) {
+  .directive('spriteSheetGame', ['loaderSvc', 'Ground', 'Sky', 'Hill', 'Background', 'Frame', 'Character', 'Husband', function (loaderSvc, Ground, Sky, Hill, Background, Frame, Character, Husband) {
     return {
       template: '<canvas></canvas>',
       replace: true,
@@ -17,7 +17,10 @@ angular.module('weddingApp')
         height: '=height'
       },
       link: function postLink(scope, element, attrs) {
-        var w, h, husband, sky, ground, hill, hill2, school,
+        var w, h, husband, sky, ground, hill, hill2,
+          picture = [],
+          frame = [],
+          character = [],
           distance = 0,   // distance of character movement
           distanceCountFlag = true,
           move = false,   // flag animation move (Event)
@@ -56,8 +59,36 @@ angular.module('weddingApp')
           hill2 = new Hill({width:w, height:h, scaleFactor: 3, assetName: 'hill2', groundHeight: ground.getHeight()});
           hill2.addToStage(scope.stage);
 
-          school = new School({width:w, height:h, scaleFactor: 1, assetName: 'school', groundHeight: ground.getHeight()});
-          school.addToStage(scope.stage);
+          // bitween distance
+          var frameDis = 600;
+          var characterDis = 50;
+
+          // add Character, Picture
+          character[0] = new Character({width:w, height:h, scaleFactor: 1, assetName: 'school', groundHeight: ground.getHeight()});
+          character[0].addToStage(scope.stage);
+
+          frame[0] = new Frame({width:w + frameDis, height:h, scaleFactor: 1, assetName: 'wife', groundHeight: ground.getHeight()});
+          frame[0].addToStage(scope.stage);
+          picture[0] = new Background({width:w + frameDis, height:h, scaleFactor: 1, assetName: 'wife', groundHeight: ground.getHeight()});
+          picture[0].addToStage(scope.stage);
+
+          for (var i = 1; i <= 11; i++){
+            frame[i] = new Frame({width:w + frameDis*(i+1), height:h, scaleFactor: 1, assetName: 'picture'+i, groundHeight: ground.getHeight()});
+            frame[i].addToStage(scope.stage);
+            picture[i] = new Background({width:w + frameDis*(i+1), height:h, scaleFactor: 1, assetName: 'picture'+i, groundHeight: ground.getHeight()});
+            picture[i].addToStage(scope.stage);
+            character[i] = new Character({width:w + frameDis*(i+1) - characterDis, height:h, scaleFactor: 1, assetName: 'friend'+i, groundHeight: ground.getHeight()});
+            character[i].addToStage(scope.stage);
+          }
+
+          frame[12] = new Frame({width:w + frameDis*13, height:h, scaleFactor: 1, assetName: 'picture12', groundHeight: ground.getHeight()});
+          frame[12].addToStage(scope.stage);
+          picture[12] = new Background({width:w + frameDis*13, height:h, scaleFactor: 1, assetName: 'picture12', groundHeight: ground.getHeight()});
+          picture[12].addToStage(scope.stage);
+
+
+
+
 
           husband = new Husband({characterAssetName: 'husband', y: 200});
           husband.addToStage(scope.stage);
@@ -84,7 +115,7 @@ angular.module('weddingApp')
           var plusMinus = (direction == 'right' ? -1 : 1);
 
           // move Ground
-          var groundMove = plusMinus * (deltaS * 150);
+          var groundMove = plusMinus * (deltaS * 100);
           if (move){
             ground.setX((ground.getX() + groundMove) % ground.getTileWidth());
           }
@@ -101,9 +132,15 @@ angular.module('weddingApp')
             hill2.setX(w);
           }
 
-          // move School
-          var schoolMove = plusMinus * (deltaS * 60);
-          school.move(schoolMove, 0);
+          // move Pictire, Character
+          var curMove = plusMinus * (deltaS * 80);
+          for (var i = 0; i < picture.length; i++){
+            picture[i].move(curMove, 0);
+            frame[i].move(curMove, 0);
+          }
+          for (var i = 0; i < character.length; i++){
+            character[i].move(curMove, 0);
+          }
 
           scope.stage.update(event);
         }
