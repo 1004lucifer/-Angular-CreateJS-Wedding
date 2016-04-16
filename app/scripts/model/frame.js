@@ -1,10 +1,6 @@
 angular.module('weddingApp')
   .factory("Frame", ['loaderSvc', function (loaderSvc) {
     function Frame(obj) {
-        // this.Frame = new createjs.Bitmap(loaderSvc.getResult(obj.assetName));
-        // this.Frame.setTransform(obj.width,
-        //                        obj.height - this.Frame.image.height * obj.scaleFactor - obj.groundHeight,
-        //                        obj.scaleFactor, obj.scaleFactor);
       var bitmap = new createjs.Bitmap(loaderSvc.getResult(obj.assetName));
       var frameWidth = bitmap.image.width+10;
       var frameHeight = bitmap.image.height+10;
