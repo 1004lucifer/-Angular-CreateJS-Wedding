@@ -98,5 +98,12 @@
         <script src="scripts/model/character.js"></script>
         <script src="scripts/model/sky.js"></script>
         <!-- endbuild -->
+
+  <script type="text/javascript">
+    $('ul > li').on('click', function(){
+      $(this).parent().children().removeClass();
+      $(this).addClass('active');
+    });
+  </script>
 </body>
 </html>
