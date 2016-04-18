@@ -21,3 +21,7 @@ use `Google AppEngine`
 
 1. modify ApplicationID of application attribute (`/app/WEB-INF/appengine-web.xml`)
 2. `$ mvn appengine:update`
+
+## demo
+
+URL: [https://github.com/yeoman/generator-angular](http://chan-wedding.appspot.com/)
