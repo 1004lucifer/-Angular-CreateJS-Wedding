@@ -24,4 +24,4 @@ use `Google AppEngine`
 
 ## demo
 
-URL: [https://github.com/yeoman/generator-angular](http://chan-wedding.appspot.com/)
+URL: [http://chan-wedding.appspot.com/](http://chan-wedding.appspot.com/)
