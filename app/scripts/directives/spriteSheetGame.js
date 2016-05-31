@@ -22,6 +22,8 @@ angular.module('weddingApp')
           frame = [],
           character = [],
 
+          speed = 700,        // running speed
+
           frameDis = 600,     // Picture Frame Distance
           characterDis = 50,  // Picture Character Distance
 
@@ -137,7 +139,7 @@ angular.module('weddingApp')
 
           checkDistance();
 
-          var deltaS = event.delta / 1000;
+          var deltaS = event.delta / speed;
           var plusMinus = (direction == 'right' ? -1 : 1);
 
           // move Ground
